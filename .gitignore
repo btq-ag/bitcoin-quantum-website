@@ -62,3 +62,6 @@ next-env.d.ts
 
 # Windows/WSL download artifacts (NTFS alternate data streams)
 *:Zone.Identifier
+
+# local agent tool logs and scratch
+.claude/
