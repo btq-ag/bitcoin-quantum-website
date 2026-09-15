@@ -44,6 +44,8 @@ There is no test suite, and type errors surface during `npm run build` (no separ
 
 Retired routes are 301-redirected in `next.config.ts` (`/introduction → /`, `/resources → /testnet`, `/v2 → /`).
 
+When you add or remove a route, update `V2Nav`'s `NAV_LINKS` array and `sitemap.ts` to match.
+
 ## Architecture
 
 ### Design system ("v2")
@@ -66,8 +68,8 @@ Key primitives in `src/components/v2/`:
 
 - **`fonts.ts`** — wires four `next/font/google` families to CSS variables consumed by `v2.css`: Archivo (display), Newsreader (serif), Hanken Grotesk (sans), IBM Plex Mono (mono). Fonts render wrong if `v2FontClassName` is missing.
 - **`V2Nav` / `V2Footer`** — shared page chrome. Nav links live in `V2Nav`'s `NAV_LINKS` array.
-- **`useTheme.ts` / `ThemeToggle.tsx`** — light/dark via a `data-theme` attribute on each `.bqv2` root, persisted to `localStorage` (`bqv2-theme`), falling back to `prefers-color-scheme`. Server renders light, then the client syncs.
-- **`RevealMount.tsx`** — drop it on a page and tag elements with `className="reveal"` for scroll-driven fade/slide-in (respects `prefers-reduced-motion`, with a safety timer so content can't stay hidden).
+- **`useTheme.ts` / `ThemeToggle.tsx`** — light/dark via a `data-theme` attribute on each `.bqv2` root, persisted to `localStorage` (`bqv2-theme`), falling back to `prefers-color-scheme`. A choice made with the toggle overrides the system setting. The server always renders light, then the client syncs, so a short flash is expected. Do not depend on the theme during server rendering.
+- **`RevealMount.tsx`** — drop it on a page and tag elements with `className="reveal"` for scroll-driven fade/slide-in (respects `prefers-reduced-motion`, with a 2.5-second safety timer that shows any element still hidden, so a failed observer cannot leave content invisible).
 - **`CryptographySection.tsx`** — shared content block used by `/` and `/protocol`.
 
 ### Metadata & SEO
@@ -76,8 +78,13 @@ SEO is load-bearing on this site:
 
 - Root `layout.tsx` sets the title template (`%s | Bitcoin Quantum`), default OG/Twitter tags, `metadataBase`, and injects JSON-LD (Organization + WebSite) via `JsonLd`.
 - Each server-component page exports its own `metadata` (title, description, canonical).
+- The home page sets `title: { absolute: ... }` to skip the template, so the brand name does not appear twice.
 - **Client pages can't export `metadata`** — `/faq` is `'use client'`, so its metadata lives in `faq/layout.tsx`. Use this pattern for interactive pages.
 - SEO infra: `robots.ts`, `manifest.ts`, `sitemap.ts` (keep in sync with routes), and a dynamic `opengraph-image.tsx`.
+
+### Config
+
+`next.config.ts` holds the route redirects, the security headers, the image formats (AVIF, WebP) and the one allowed remote image host (`explorer.bitcoinquantum.com`). React strict mode is on.
 
 ### Path alias
 

@@ -1,7 +1,7 @@
 # Guides Port — Pilot Article Design
 
 **Date:** 2026-06-03
-**Status:** Pilot spec ready for review
+**Status:** Shipped. The pilot and later guides are in `src/app/guides/`.
 **Branch:** `feat/guides-quantum-secure-bitcoin`
 
 ## Goal
