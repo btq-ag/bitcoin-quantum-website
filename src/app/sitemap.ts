@@ -15,7 +15,7 @@ const STATIC_PAGES: {
   changeFrequency: MetadataRoute.Sitemap[number]['changeFrequency']
   priority: number
 }[] = [
-  { path: '', lastModified: '2026-07-22', changeFrequency: 'weekly', priority: 1.0 },
+  { path: '', lastModified: '2026-09-17', changeFrequency: 'weekly', priority: 1.0 },
   { path: '/protocol', lastModified: '2026-07-22', changeFrequency: 'monthly', priority: 0.9 },
   { path: '/testnet', lastModified: '2026-07-22', changeFrequency: 'weekly', priority: 0.9 },
   { path: '/transaction-types', lastModified: '2026-08-20', changeFrequency: 'monthly', priority: 0.8 },

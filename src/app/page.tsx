@@ -9,9 +9,12 @@ import '@/components/v2/v2.css';
 // template only fires when a page sets a string title; .absolute opts
 // out of the template). `og:site_name` from layout.tsx still shows
 // "Bitcoin Quantum" above this in link previews.
+// 159 chars: names the fork, the NIST primitive, supply + PoW continuity,
+// and the live-testnet status for SERP CTR and AI-citation freshness.
 const HOME_DESC =
-  'Bitcoin rebuilt on post-quantum cryptography. ' +
-  'Same 21 million coins, same proof-of-work network.';
+  'Bitcoin Quantum (BTQ) is a quantum-resistant fork of Bitcoin with ' +
+  'NIST-standardized Dilithium signatures. Same 21M supply and SHA-256 ' +
+  'proof-of-work — testnet live.';
 
 export const metadata: Metadata = {
   // Browser tab gets the brand explicitly (template doesn't apply to
