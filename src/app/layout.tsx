@@ -23,9 +23,13 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
 });
 
+// Site-wide default (home overrides with the same string). 159 chars:
+// names the fork, the NIST primitive, supply + PoW continuity, and the
+// live-testnet status for SERP CTR and AI-citation freshness.
 const DESCRIPTION =
-  'Bitcoin rebuilt on post-quantum cryptography. ' +
-  'Same 21 million coins, same proof-of-work network.';
+  'Bitcoin Quantum (BTQ) is a quantum-resistant fork of Bitcoin with ' +
+  'NIST-standardized Dilithium signatures. Same 21M supply and SHA-256 ' +
+  'proof-of-work — testnet live.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
