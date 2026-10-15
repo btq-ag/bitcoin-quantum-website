@@ -2,6 +2,9 @@
   "name": "bitcoin-quantum-website",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
@@ -12,7 +15,7 @@
     "@vercel/analytics": "^2.0.1",
     "framer-motion": "^12.33.0",
     "geist": "^1.5.1",
-    "next": "^15.5.9",
+    "next": "^15.5.28",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
@@ -23,8 +26,14 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.5.2",
+    "eslint-config-next": "15.5.28",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "overrides": {
+    "next": {
+      "postcss": "^8.5.23",
+      "sharp": "^0.35.5"
+    }
   }
 }
