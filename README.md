@@ -8,7 +8,7 @@ Built with Next.js 15 (App Router), TypeScript, and Tailwind CSS v4. It's a full
 
 ### Prerequisites
 
-- Node.js 18.17 or later
+- Node.js 20.9 or later
 - npm
 
 ### Development
