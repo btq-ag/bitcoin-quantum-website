@@ -304,17 +304,25 @@ export default function TestnetPage() {
               <span className="eyebrow reveal">Need help?</span>
               <h2 className="h2 reveal d1">Talk to the testnet community.</h2>
               <p className="lead reveal d2">
-                Join the Telegram channel to ask questions, report bugs, or compare notes with
+                Join the Discord or Telegram to ask questions, report bugs, or compare notes with
                 other operators. Core contributors hang out there too.
               </p>
               <div className="cta-row reveal d2">
                 <a
-                  href="https://t.me/+bE6I4gqX4Vo1ODJh"
+                  href="https://discord.com/invite/bBYD8rBtHm"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn btn-accent"
                 >
-                  Join Telegram <span className="arrow">→</span>
+                  Join Discord <span className="arrow">→</span>
+                </a>
+                <a
+                  href="https://t.me/+bE6I4gqX4Vo1ODJh"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost"
+                >
+                  Join Telegram
                 </a>
                 <a
                   href="https://github.com/btq-ag/btq-core/issues"
