@@ -1,0 +1,6 @@
+Contact: https://github.com/btq-ag/btq-core/security/advisories/new
+Contact: mailto:bitcoinq@btq.com
+Expires: 2027-09-01T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://bitcoinquantum.com/.well-known/security.txt
+Policy: https://github.com/btq-ag/btq-core/blob/master/SECURITY.md
