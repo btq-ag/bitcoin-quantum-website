@@ -86,6 +86,7 @@ export default function RootLayout({
               X_ACCOUNT_URL,
               'https://github.com/btq-ag/btq-core',
               'https://t.me/+bE6I4gqX4Vo1ODJh',
+              'https://discord.com/invite/bBYD8rBtHm',
             ],
             description:
               "Bitcoin Quantum is a quantum-resistant cryptocurrency built on Bitcoin's proven architecture with NIST-standardized CRYSTALS-Dilithium signatures.",
