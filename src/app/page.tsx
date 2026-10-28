@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
-import { v2FontClassName } from '@/components/v2/fonts';
+import { homeFontClassName } from '@/components/home/fonts';
 import JsonLd from '@/components/JsonLd';
 import { SITE_URL, socialMeta } from '@/lib/seo';
-import V2Page from './V2Page';
-import '@/components/v2/v2.css';
+import HomePage from './HomePage';
+import '@/components/home/home.css';
 
 // Home uses the tagline as its absolute title (root layout's title
 // template only fires when a page sets a string title; .absolute opts
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
 
 /**
  * The headline network parameters, restated as machine-readable facts.
- * The hero renders these as animated stat cards; this block is what an
- * extractor that never runs the animation reads instead.
+ * The page shows them in the Quick facts grid; this block restates them
+ * for extractors that read structured data.
  */
 const HOME_SCHEMA = {
   '@context': 'https://schema.org',
@@ -69,9 +69,9 @@ const HOME_SCHEMA = {
 
 export default function Home() {
   return (
-    <div className={v2FontClassName}>
+    <div className={homeFontClassName}>
       <JsonLd data={HOME_SCHEMA} />
-      <V2Page />
+      <HomePage />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 /**
  * Headless client component that wires up scroll-driven reveal for any
- * descendant of a .bqv2 root tagged with the `.reveal` class.
+ * descendant of a .bqv2 or .bqhome root tagged with the `.reveal` class.
  *
  * Drop one of these into a page (any depth — it queries the document)
  * and elements with `.reveal` fade + slide into place as they enter
@@ -15,7 +15,7 @@ import { useEffect } from 'react';
 export default function RevealMount() {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const items = Array.from(document.querySelectorAll<HTMLElement>('.bqv2 .reveal'));
+    const items = Array.from(document.querySelectorAll<HTMLElement>('.bqv2 .reveal, .bqhome .reveal'));
 
     if (reduce) {
       items.forEach((el) => el.classList.add('in'));

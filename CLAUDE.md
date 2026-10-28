@@ -21,9 +21,10 @@ There is no test suite. There is no separate typecheck script — type errors su
 
 ### "v2" is the live site; `globals.css` is legacy
 
-The codebase carries two parallel design systems. **Everything currently routed uses the v2 system.** Don't be misled by the older one:
+The codebase carries three design systems. **The home page uses the `.bqhome` system; every other routed page uses v2.** Don't be misled by the oldest one:
 
-- **`src/components/v2/v2.css`** — the active design system. All selectors are scoped under `.bqv2` so they can't leak. This is what every live page renders inside.
+- **`src/components/home/home.css`** — the home page only (`src/app/HomePage.tsx`), built from the Figma redesign. Scoped under `.bqhome`, dark-only, with its own fonts (`home/fonts.ts`: Hanken Grotesk stands in for the design's Denim, plus Fragment Mono), `HomeNav`, and an inline footer. Assets live in `public/home/`. It does not use V2Nav, V2Footer or the theme toggle.
+- **`src/components/v2/v2.css`** — the design system for inner pages. All selectors are scoped under `.bqv2` so they can't leak. This is what every live page renders inside.
 - **`src/app/globals.css`** — the older dark/cyan theme (`@theme inline`, `.gradient-text`, grid background). Imported by the root layout but largely vestigial. Don't build new UI against it.
 
 The README.md is **stale** — it documents retired `/introduction` and `/resources` pages and the old design. Trust the code over the README. Retired routes are 301-redirected in `next.config.ts` (`/introduction → /`, `/resources → /testnet`, `/v2 → /`).
@@ -38,11 +39,13 @@ Any new page must opt into the v2 system the same way existing pages do:
 4. **Theming** (`useTheme.ts`): light/dark is driven by a `data-theme` attribute set on every `.bqv2` root, persisted to `localStorage['bqv2-theme']`, falling back to `prefers-color-scheme`. An explicit user toggle locks the choice. `ThemeToggle` is the UI. Server always renders light, then the client syncs — expect a brief flash, and never rely on theme during SSR.
 5. **Scroll reveals**: drop a `<RevealMount />` anywhere on the page and tag elements with `className="reveal"`. They fade/slide in via IntersectionObserver, respect `prefers-reduced-motion`, and a 2.5s safety timer force-reveals anything still hidden so a failed observer can't strand content invisibly.
 
-`CryptographySection` is a shared content block used by both `/` and `/protocol`.
+The "Under the hood" copy and CLI transcript live in `src/content/cryptography.tsx`. `CryptographySection` (on `/protocol`) and `HomePage` both render from it, so edit the copy there. The home-page styles left in v2.css are no longer used.
+
+`RevealMount` works for both systems: it observes `.bqv2 .reveal` and `.bqhome .reveal`.
 
 ### Routes
 
-`src/app/` — `/` (`page.tsx` → `V2Page.tsx`), `/protocol`, `/testnet`, `/faq`. Keep `sitemap.ts` in sync when adding/removing routes.
+`src/app/` — `/` (`page.tsx` → `HomePage.tsx`), `/protocol`, `/testnet`, `/faq`. Keep `sitemap.ts` in sync when adding/removing routes.
 
 ### Metadata & SEO
 

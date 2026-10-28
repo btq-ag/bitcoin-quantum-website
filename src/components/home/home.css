@@ -1,0 +1,681 @@
+/* ============================================================
+   Home page — Figma "Website / homepage" redesign
+   Every selector is scoped under .bqhome so nothing leaks into
+   the v2 pages. Dark-only: the design has no light theme.
+   Measurements come from the 1440px Figma frame.
+   ============================================================ */
+
+.bqhome {
+  --blue: #35a4ea;
+  --ink: #000;
+  --paper: #fff;
+  --muted: rgba(255, 255, 255, 0.5);
+  --faint: rgba(255, 255, 255, 0.48);
+  --glass: rgba(255, 255, 255, 0.15);
+  --gutter: 40px;
+  --sans: var(--home-sans), 'Hanken Grotesk', system-ui, sans-serif;
+  --mono: var(--home-mono), ui-monospace, monospace;
+
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  position: relative;
+}
+.bqhome *, .bqhome *::before, .bqhome *::after { box-sizing: border-box; }
+.bqhome h1, .bqhome h2, .bqhome h3, .bqhome h4, .bqhome p,
+.bqhome ul, .bqhome ol, .bqhome dl, .bqhome dd, .bqhome pre { margin: 0; padding: 0; }
+.bqhome ul, .bqhome ol { list-style: none; }
+.bqhome a { color: inherit; text-decoration: none; }
+.bqhome img { display: block; max-width: none; }
+
+/* ---------- Type ---------- */
+.bqhome .hh1 {
+  font-size: clamp(44px, 5.6vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+}
+.bqhome .hh2 {
+  font-size: clamp(32px, 3.34vw, 48px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+.bqhome .hh3 {
+  font-size: clamp(26px, 2.5vw, 36px);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+.bqhome .hh4 {
+  font-size: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+.bqhome .hbody {
+  font-size: clamp(17px, 1.39vw, 20px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.bqhome .heyebrow {
+  display: block;
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+.bqhome .hblue { color: var(--blue); }
+.bqhome .htitles { display: flex; flex-direction: column; gap: 16px; max-width: 675px; }
+
+/* ---------- Buttons ---------- */
+.bqhome .hbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 8px 20px 8px 12px;
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--paper);
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition: background 0.2s ease;
+}
+.bqhome a.hbtn:hover { background: rgba(255, 255, 255, 0.25); }
+.bqhome .hbtn-primary { background: var(--blue); color: var(--ink); }
+.bqhome a.hbtn-primary:hover { background: #5cb7f0; }
+.bqhome .hbtn-plain { padding: 8px 20px; }
+.bqhome .hbtn-off { padding: 8px 12px; color: var(--faint); }
+.bqhome .hbtn[aria-disabled='true'] { cursor: default; }
+.bqhome .hbtn-chev { flex: none; }
+.bqhome .hcta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+
+/* ---------- Section rule + spacing ---------- */
+.bqhome .hrule {
+  width: calc(100% - 2 * var(--gutter) + 2px);
+  max-width: 1362px;
+  height: 4px;
+  margin: 0 auto 20px;
+}
+.bqhome .hsec { position: relative; padding-top: 36px; }
+.bqhome .hsec > .htitles,
+.bqhome .hsec > .heyebrow { margin: 0 var(--gutter); }
+.bqhome .hsplit {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 20px;
+  padding: 0 var(--gutter);
+}
+
+/* ---------- Dot field ---------- */
+.bqhome .hdots {
+  position: relative;
+  width: min(1350px, calc(100% - 2 * var(--gutter)));
+  margin: 0 auto;
+  overflow: hidden;
+  background: url('/home/dot.svg') 0 0 / 90px 90px repeat;
+}
+.bqhome .hdots img { position: absolute; }
+
+/* ============================================================
+   Nav
+   ============================================================ */
+.bqhome .hnav {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  padding: 24px var(--gutter);
+}
+.bqhome .hnav-brand { display: flex; align-items: center; gap: 7px; }
+.bqhome .hnav-divider {
+  width: 1px;
+  height: 16px;
+  margin: 0 5px;
+  background: rgba(255, 255, 255, 0.29);
+}
+.bqhome .hnav-links {
+  display: flex;
+  gap: 32px;
+  margin-left: auto;
+}
+.bqhome .hnav-links a {
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #e4e8f7;
+  transition: color 0.2s ease;
+}
+.bqhome .hnav-links a:hover { color: var(--blue); }
+.bqhome .hnav-right { display: flex; align-items: center; gap: 12px; margin-left: 68px; }
+.bqhome .hnav-toggle {
+  display: none;
+  padding: 4px;
+  color: var(--paper);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* ============================================================
+   Hero + facts + thesis (share one sky image)
+   ============================================================ */
+.bqhome .hsky { position: relative; }
+.bqhome .hsky-bg {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1354px;
+  -webkit-mask-image: linear-gradient(#000 70%, transparent);
+  mask-image: linear-gradient(#000 70%, transparent);
+}
+.bqhome .hsky-bg img { object-fit: cover; object-position: 50% 0; }
+.bqhome .hsky > :not(.hsky-bg) { position: relative; }
+
+.bqhome .hhero {
+  min-height: 800px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 120px var(--gutter) 83px;
+}
+.bqhome .hhero-copy { display: flex; flex-direction: column; gap: 13px; }
+.bqhome .hhero-side { width: 558px; flex: none; }
+
+.bqhome .hfacts-wrap { padding-top: 92px; padding-bottom: 19px; }
+.bqhome .hfacts-wrap .hrule { margin-bottom: 0; }
+.bqhome .hfacts {
+  position: relative;
+  width: min(1354.5px, calc(100% - 2 * var(--gutter)));
+  aspect-ratio: 1354.5 / 361;
+  margin: 0 auto 70px;
+}
+.bqhome .hfacts-grid { position: absolute; inset: 0; width: 100%; height: 100%; }
+.bqhome .hfacts-title { position: absolute; left: 12.5%; top: 13.5%; }
+.bqhome .hfacts-link { position: absolute; right: 11.2%; top: 21.3%; }
+.bqhome .hfacts-list {
+  position: absolute;
+  left: 11.32%;
+  top: 44.6%;
+  width: 77.4%;
+  height: 54.8%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  column-gap: 9.35%;
+}
+.bqhome .hfact {
+  display: grid;
+  grid-template-columns: 39% 1fr;
+  align-items: center;
+  padding: 0 16px;
+}
+.bqhome .hfact dd {
+  order: -1;
+  font-size: clamp(28px, 2.5vw, 36px);
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--blue);
+  white-space: nowrap;
+}
+.bqhome .hfact dt {
+  font-size: clamp(17px, 1.39vw, 20px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+}
+
+.bqhome .hthesis {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 36px var(--gutter) 22px;
+}
+.bqhome .hthesis-body { width: 557px; flex: none; }
+.bqhome .hthesis-body p + p { margin-top: 1.15em; }
+
+/* ============================================================
+   Light band: technology + under the hood + testnet
+   ============================================================ */
+.bqhome .hband {
+  border-radius: 30px 30px 0 0;
+  overflow: hidden;
+}
+.bqhome .htech,
+.bqhome .hunder {
+  color: var(--ink);
+}
+/* The Figma gradient runs 2260px from the band top. These two sections
+   cover the first 1799px of it; the testnet section picks up the rest. */
+.bqhome .htech { background: linear-gradient(#b7d3f1, #fff 356px); }
+.bqhome .hunder {
+  background: linear-gradient(#fff 0, #9fbde2 66%, #243f5e 100%);
+  padding-bottom: 80px;
+}
+
+/* ----- Technology ----- */
+.bqhome .htech { padding-bottom: 32px; }
+.bqhome .hsplit-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  padding-bottom: 40px;
+}
+.bqhome .htech-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 38px;
+}
+.bqhome .htech-item {
+  display: grid;
+  grid-template-columns: minmax(0, 473px) 197px;
+  justify-content: space-between;
+  min-height: 150px;
+}
+.bqhome .htech-item .hh4 { margin-bottom: 8px; }
+.bqhome .htech-item p {
+  font-size: clamp(17px, 1.39vw, 20px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* ----- Under the hood ----- */
+.bqhome .hunder-body { margin-top: 34px; max-width: 694px; }
+.bqhome .hlead {
+  font-size: clamp(17px, 1.39vw, 20px);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+.bqhome .hnote {
+  margin-top: 20px;
+  padding: 18px 16px;
+  background: rgba(255, 255, 255, 0.26);
+  border-left: 3px solid #008bf5;
+  font-size: 16px;
+  line-height: 1.46;
+  letter-spacing: -0.01em;
+  color: #3b5265;
+}
+.bqhome .hnote-label {
+  display: block;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  color: #00539a;
+}
+.bqhome .hnote code {
+  padding: 1px 3px;
+  font-family: inherit;
+  color: #00539a;
+  background: rgba(53, 164, 234, 0.2);
+  border: 0.5px solid #008bf5;
+  border-radius: 2px;
+}
+.bqhome .hsquares {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 44px;
+  font-size: clamp(17px, 1.39vw, 20px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.bqhome .hsquares li { position: relative; padding-left: 14px; }
+.bqhome .hsquares li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  background: var(--ink);
+}
+.bqhome .hcode {
+  margin-top: 44px;
+  max-width: 665px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  font-family: var(--mono);
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+.bqhome .hcode-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 26px 25px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.35);
+}
+.bqhome .hcode-body {
+  padding: 24px 25px 30px;
+  overflow-x: auto;
+  font: inherit;
+  line-height: 33px;
+  white-space: pre;
+}
+.bqhome .hcode-body > span { display: block; }
+.bqhome .hcode-body .gap { line-height: 20px; }
+.bqhome .hcode-body .c { color: rgba(0, 0, 0, 0.78); }
+.bqhome .hcode-body .b { color: #3752f7; }
+.bqhome .hcode-body .f { color: #a71bab; }
+.bqhome .hcode-body .k { color: #006bbd; }
+.bqhome .hcode-body .s { color: #008b55; }
+.bqhome .hcode-body .n { color: #cf5300; }
+
+/* ----- Testnet ----- */
+.bqhome .htestnet {
+  background: linear-gradient(#243f5e 0, #112b49 91px, #000 461px);
+  overflow: hidden;
+}
+.bqhome .hlive {
+  width: max-content;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, var(--blue), #3752f7 260px);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.bqhome .hlive::before { content: '• '; }
+.bqhome .htestnet .hsplit { column-gap: 84px; grid-template-columns: 605fr 630fr; }
+.bqhome .hplatforms {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.7);
+}
+.bqhome .htestnet-pitch {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  min-height: 300px;
+}
+.bqhome .hsteps { display: flex; flex-direction: column; gap: 40px; }
+.bqhome .hsteps li { display: flex; align-items: flex-start; gap: 28px; }
+.bqhome .hstep-idx {
+  flex: none;
+  padding: 6px 10px;
+  font-family: var(--mono);
+  font-size: 20px;
+  line-height: 1.15;
+  background: var(--glass);
+}
+.bqhome .hsteps .hh4 { margin-bottom: 8px; }
+.bqhome .hsteps p {
+  font-size: clamp(17px, 1.39vw, 20px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--muted);
+}
+.bqhome .hsteps p a { text-decoration: underline; text-underline-offset: 3px; }
+.bqhome .hsteps p a:hover { color: var(--paper); }
+.bqhome .htestnet .hdots { margin-top: 96px; }
+
+/* ============================================================
+   Get involved
+   ============================================================ */
+.bqhome .hpaths { min-height: 800px; overflow: hidden; }
+.bqhome .hpaths-bg {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  width: 1645px;
+  height: 764px;
+  transform: translateX(-50%);
+}
+.bqhome .hpaths-bg img { object-fit: cover; }
+.bqhome .hpaths > :not(.hpaths-bg) { position: relative; }
+.bqhome .hpaths-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 420px));
+  justify-content: space-between;
+  column-gap: 40px;
+  max-width: 1350px;
+  margin: 76px auto 0;
+  padding: 0 var(--gutter);
+  box-sizing: content-box;
+}
+.bqhome .hpaths-lines {
+  position: absolute;
+  inset: -17px calc(var(--gutter) - 25px);
+  width: calc(100% - 2 * var(--gutter) + 50px);
+  height: calc(100% + 34px);
+  pointer-events: none;
+}
+.bqhome .hpath {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 76px;
+  padding: 20px 0;
+}
+.bqhome .hpath-head { display: flex; justify-content: space-between; align-items: flex-start; }
+.bqhome .hpath .hbody { margin: 16px 0 20px; }
+
+/* ============================================================
+   Roadmap
+   ============================================================ */
+.bqhome .hroad { min-height: 800px; }
+.bqhome .hroad .hsplit { grid-template-columns: 1fr 694px; }
+.bqhome .hroad .htitles { max-width: 606px; }
+.bqhome .hphases { display: flex; flex-direction: column; gap: 19px; margin-top: 12px; }
+.bqhome .hphase {
+  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.bqhome .hphase.live {
+  border-color: transparent;
+  background: linear-gradient(90deg, #001d2f, #000);
+}
+.bqhome .hphase-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+.bqhome .hphase.done .hphase-status { color: var(--paper); }
+.bqhome .hphase.live .hphase-status { color: var(--blue); }
+.bqhome .hphase .hh3 { margin-bottom: 7px; }
+
+/* ============================================================
+   Final CTA
+   ============================================================ */
+.bqhome .hfinal { min-height: 800px; overflow: hidden; }
+.bqhome .hfinal-grid { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.bqhome .hfinal-grid img {
+  position: absolute;
+  left: calc(36.75% - 960px);
+  top: -148px;
+  width: 1920px;
+  height: 1108px;
+  transform: rotate(-19.57deg) scale(1, 0.95) skewX(17.5deg);
+}
+.bqhome .hfinal-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  min-height: 740px;
+  padding: 0 96px 0 45px;
+}
+.bqhome .hfinal-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 102px;
+  max-width: 606px;
+}
+.bqhome .hfinal-art { flex: none; width: 576px; height: auto; }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.bqhome .hfooter { padding: 67px var(--gutter) 90px; }
+.bqhome .hfooter-top { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }
+.bqhome .hfooter-brand p {
+  max-width: 320px;
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.bqhome .hfooter-cols { display: grid; grid-template-columns: repeat(3, 212px); }
+.bqhome .hfooter h4 {
+  margin-bottom: 24px;
+  font-size: 14px;
+  line-height: 1;
+  font-weight: 400;
+  text-transform: uppercase;
+  opacity: 0.5;
+}
+.bqhome .hfooter ul { display: flex; flex-direction: column; gap: 16px; font-size: 14px; line-height: 1; }
+.bqhome .hfooter ul a:hover { color: var(--blue); }
+.bqhome .hfooter-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 160px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--faint);
+}
+
+/* ============================================================
+   Scroll reveal (wired by RevealMount)
+   ============================================================ */
+.bqhome .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.bqhome .reveal.in { opacity: 1; transform: none; }
+.bqhome .reveal.d1 { transition-delay: 0.07s; }
+.bqhome .reveal.d2 { transition-delay: 0.14s; }
+.bqhome .reveal.d3 { transition-delay: 0.21s; }
+@media (prefers-reduced-motion: reduce) {
+  .bqhome .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1200px) {
+  .bqhome .hpaths-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 48px; }
+  .bqhome .hfinal-inner { padding: 0 var(--gutter); }
+  .bqhome .hfinal-art { width: 44%; }
+}
+
+@media (max-width: 1100px) {
+  .bqhome .hnav-links { gap: 24px; }
+  .bqhome .hnav-right { margin-left: 32px; }
+
+  .bqhome .hhero { flex-direction: column; align-items: flex-start; justify-content: flex-end; min-height: 720px; }
+  .bqhome .hhero-side { width: 100%; max-width: 558px; }
+
+  /* Facts: drop the drawn grid, use a plain two-column list. */
+  .bqhome .hfacts { aspect-ratio: auto; margin-bottom: 56px; padding-top: 40px; }
+  .bqhome .hfacts-grid { display: none; }
+  .bqhome .hfacts-title,
+  .bqhome .hfacts-link,
+  .bqhome .hfacts-list { position: static; }
+  .bqhome .hfacts-link { margin-top: 20px; }
+  .bqhome .hfacts-list { width: 100%; height: auto; margin-top: 28px; column-gap: 32px; }
+  .bqhome .hfact { padding: 24px 0; border-top: 1px dashed rgba(255, 255, 255, 0.2); }
+
+  .bqhome .hthesis { flex-direction: column; align-items: flex-start; }
+  .bqhome .hthesis-body { width: 100%; max-width: 557px; }
+
+  .bqhome .hsplit,
+  .bqhome .htestnet .hsplit,
+  .bqhome .hroad .hsplit { grid-template-columns: minmax(0, 1fr); row-gap: 40px; }
+  .bqhome .htech-list,
+  .bqhome .hunder-body { margin-top: 0; }
+  .bqhome .hsplit-left { padding-bottom: 0; }
+  .bqhome .htestnet-pitch { min-height: 0; }
+
+  .bqhome .hpaths-grid { grid-template-columns: 1fr; row-gap: 0; padding: 0; margin: 48px var(--gutter) 0; max-width: none; }
+  .bqhome .hpaths-lines { display: none; }
+  .bqhome .hpath { gap: 32px; padding: 32px 0; border-top: 1px dashed rgba(255, 255, 255, 0.2); }
+  .bqhome .hpaths { padding-bottom: 64px; }
+
+  .bqhome .hroad { min-height: 0; padding-bottom: 80px; }
+
+  .bqhome .hfinal-inner { flex-direction: column; align-items: flex-start; padding: 80px var(--gutter); }
+  .bqhome .hfinal-copy { gap: 48px; }
+  .bqhome .hfinal-art { width: min(576px, 100%); align-self: center; }
+
+  .bqhome .hfooter-top { grid-template-columns: 1fr; row-gap: 48px; }
+}
+
+@media (max-width: 720px) {
+  .bqhome { --gutter: 16px; }
+
+  .bqhome .hnav { padding-top: 18px; padding-bottom: 18px; }
+  .bqhome .hnav-divider,
+  .bqhome .hnav-btq { display: none; }
+  .bqhome .hnav-right { margin-left: auto; }
+  .bqhome .hnav-toggle { display: block; }
+  .bqhome .hnav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: var(--gutter);
+    right: var(--gutter);
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 16px;
+    background: rgba(0, 0, 0, 0.85);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  .bqhome .hnav-links.open { display: flex; }
+  .bqhome .hnav-links a { display: block; padding: 14px 0; font-size: 13px; }
+
+  .bqhome .hhero { min-height: 640px; padding-bottom: 56px; }
+  .bqhome .hfacts-wrap { padding-top: 56px; }
+  .bqhome .hfacts-list { grid-template-columns: 1fr; }
+  .bqhome .hfact { grid-template-columns: 45% 1fr; }
+
+  .bqhome .htech-item { grid-template-columns: 1fr; }
+  .bqhome .htech-item img { width: 132px; height: auto; margin-top: 8px; }
+  .bqhome .hcode { font-size: 13px; }
+  .bqhome .hcode-body { line-height: 26px; padding: 18px 16px 22px; }
+  .bqhome .hcode-bar { padding: 18px 16px; }
+  .bqhome .hsteps li { gap: 16px; }
+
+  .bqhome .hfooter-cols { grid-template-columns: 1fr 1fr; row-gap: 40px; }
+  .bqhome .hfooter-legal { margin-top: 72px; }
+}
+
+/* The hero repeats "Get started" right below, so the nav copy can go. */
+@media (max-width: 400px) {
+  .bqhome .hnav-right .hbtn { display: none; }
+}
