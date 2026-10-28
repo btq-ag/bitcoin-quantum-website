@@ -39,7 +39,7 @@ Any new page must opt into the v2 system the same way existing pages do:
 4. **Theming** (`useTheme.ts`): light/dark is driven by a `data-theme` attribute set on every `.bqv2` root, persisted to `localStorage['bqv2-theme']`, falling back to `prefers-color-scheme`. An explicit user toggle locks the choice. `ThemeToggle` is the UI. Server always renders light, then the client syncs — expect a brief flash, and never rely on theme during SSR.
 5. **Scroll reveals**: drop a `<RevealMount />` anywhere on the page and tag elements with `className="reveal"`. They fade/slide in via IntersectionObserver, respect `prefers-reduced-motion`, and a 2.5s safety timer force-reveals anything still hidden so a failed observer can't strand content invisibly.
 
-`CryptographySection` is a shared content block used by `/protocol`. The home-page styles left in v2.css are no longer used.
+The "Under the hood" copy and CLI transcript live in `src/content/cryptography.tsx`. `CryptographySection` (on `/protocol`) and `HomePage` both render from it, so edit the copy there. The home-page styles left in v2.css are no longer used.
 
 `RevealMount` works for both systems: it observes `.bqv2 .reveal` and `.bqhome .reveal`.
 
