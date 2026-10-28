@@ -2,6 +2,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import HomeNav, { Chevron } from '@/components/home/HomeNav';
 import RevealMount from '@/components/v2/RevealMount';
+import {
+  CRYPTO_CODE,
+  CRYPTO_CODE_TITLE,
+  CRYPTO_EYEBROW,
+  CRYPTO_LEAD,
+  CRYPTO_NOTE_LABEL,
+  CRYPTO_POINTS,
+  CRYPTO_TITLE,
+  CryptoNoteBody,
+  type CodeToken,
+} from '@/content/cryptography';
 
 /*
  * Home page, built from the Figma "Website / homepage" frame.
@@ -38,24 +49,17 @@ const TECH = [
   },
 ];
 
-// Token classes map to the design's syntax colours in home.css.
-const CODE = [
-  '<span class="c"># Generate a quantum-safe Dilithium address</span>',
-  '<span class="c"># and sign a testnet transaction.</span>',
-  '',
-  '$ <span class="b">btq-cli</span> <span class="f">-testnet</span> <span class="k">createwallet</span> <span class="s">&quot;main&quot;</span>',
-  '{ <span class="s">&quot;name&quot;</span>: <span class="s">&quot;main&quot;</span> }',
-  '',
-  '$ <span class="b">btq-cli</span> <span class="f">-testnet</span> -rpcwallet=main \\',
-  '    <span class="k">getnewdilithiumaddress</span>',
-  '<span class="n">tbtq1z9u4k…</span>         # Dilithium P2MR',
-  '',
-  '$ <span class="b">btq-cli</span> <span class="f">-testnet -rpcwallet=main</span> \\',
-  '    <span class="k">sendtoaddress</span> <span class="s">&quot;tbtq1z9u4k…&quot;</span> <span class="n">0.50</span>',
-  '<span class="n">8a7f…e2c1</span>',
-  '',
-  '<span class="c"># Every spend signed with ML-DSA — quantum-safe.</span>',
-];
+// home.css colour classes for each code token kind, from the design.
+const TOKEN_CLASS: Record<CodeToken, string | undefined> = {
+  text: undefined,
+  comment: 'c',
+  prompt: undefined,
+  command: 'b',
+  flag: 'f',
+  method: 'k',
+  string: 's',
+  value: 'n',
+};
 
 const PHASES = [
   { tag: 'Phase 01', status: 'Complete', title: 'Specification', body: 'Protocol design built on NIST-standardized post-quantum signatures.', state: 'done' },
@@ -105,15 +109,15 @@ export default function HomePage() {
     <div className="bqhome">
       <RevealMount />
 
-      {/* Hero image runs behind the hero, the facts and the thesis. */}
-      <div className="hsky">
-        <div className="hsky-bg" aria-hidden="true">
-          <Image src="/home/hero-bg.png" alt="" fill priority sizes="100vw" />
-        </div>
+      <HomeNav />
 
-        <HomeNav />
+      <main id="top">
+        {/* Hero image runs behind the hero, the facts and the thesis. */}
+        <div className="hsky">
+          <div className="hsky-bg" aria-hidden="true">
+            <Image src="/home/hero-bg.png" alt="" fill priority sizes="100vw" />
+          </div>
 
-        <main id="top">
           {/* ===================== HERO ===================== */}
           <header className="hhero">
             <div className="hhero-copy reveal">
@@ -184,266 +188,260 @@ export default function HomePage() {
             </div>
             <DotField />
           </section>
-        </main>
-      </div>
+        </div>
 
-      {/* ===================== LIGHT BAND ===================== */}
-      <div className="hband">
-        {/* ----- Technology ----- */}
-        <section className="hsec htech" id="technology">
-          <Rule light />
-          <div className="hsplit">
-            <div className="hsplit-left">
-              <Titles eyebrow="The technology">
-                Three changes.
-                <br /> Everything else stays&nbsp;Bitcoin.
-              </Titles>
-              <Link href="/protocol" className="hbtn hbtn-primary reveal">
-                <Chevron dark /> Read the protocol
-              </Link>
+        {/* ===================== LIGHT BAND ===================== */}
+        <div className="hband">
+          {/* ----- Technology ----- */}
+          <section className="hsec htech" id="technology">
+            <Rule light />
+            <div className="hsplit">
+              <div className="hsplit-left">
+                <Titles eyebrow="The technology">
+                  Three changes.
+                  <br /> Everything else stays&nbsp;Bitcoin.
+                </Titles>
+                <Link href="/protocol" className="hbtn hbtn-primary reveal">
+                  <Chevron dark /> Read the protocol
+                </Link>
+              </div>
+              <div className="htech-list">
+                {TECH.map((t, i) => (
+                  <article key={t.title} className={`htech-item reveal d${i}`}>
+                    <div>
+                      <h3 className="hh4">{t.title}</h3>
+                      <p>{t.body}</p>
+                    </div>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={t.icon} alt="" aria-hidden="true" width={197} height={150} />
+                  </article>
+                ))}
+              </div>
             </div>
-            <div className="htech-list">
-              {TECH.map((t, i) => (
-                <article key={t.title} className={`htech-item reveal d${i}`}>
-                  <div>
-                    <h3 className="hh4">{t.title}</h3>
-                    <p>{t.body}</p>
+          </section>
+
+          {/* ----- Under the hood ----- */}
+          <section className="hsec hunder" id="under">
+            <Rule light />
+            <div className="hsplit">
+              <Titles eyebrow={CRYPTO_EYEBROW}>{CRYPTO_TITLE}</Titles>
+              <div className="hunder-body reveal d1">
+                <p className="hlead">{CRYPTO_LEAD}</p>
+                <aside className="hnote" role="note">
+                  <span className="hnote-label">{CRYPTO_NOTE_LABEL}</span>
+                  <CryptoNoteBody />
+                </aside>
+                <ul className="hsquares">
+                  {CRYPTO_POINTS.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+                <div className="hcode">
+                  <div className="hcode-bar">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src="/home/code-dots.svg" alt="" aria-hidden="true" width={38} height={8} />
+                    <span>{CRYPTO_CODE_TITLE}</span>
                   </div>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={t.icon} alt="" aria-hidden="true" width={197} height={150} />
-                </article>
+                  <pre className="hcode-body">
+                    {CRYPTO_CODE.map((line, i) =>
+                      line.length ? (
+                        <span key={i}>
+                          {line.map(([kind, text], j) => (
+                            <span key={j} className={TOKEN_CLASS[kind]}>{text}</span>
+                          ))}
+                          {'\n'}
+                        </span>
+                      ) : (
+                        <span key={i} className="gap">{'\n'}</span>
+                      )
+                    )}
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ----- Testnet ----- */}
+          <section className="hsec hdark htestnet" id="testnet">
+            <Rule />
+            <span className="heyebrow hlive reveal">Testnet live</span>
+            <div className="hsplit">
+              <div className="htestnet-pitch">
+                <h2 className="hh2 reveal">Run a quantum-safe node.</h2>
+                <div className="reveal d1">
+                  <p className="hbody">
+                    Spin up a testnet node in under fifteen minutes. Mine quantum-safe blocks,
+                    validate transactions, and help stress-test the network before mainnet.
+                  </p>
+                  <div className="hcta">
+                    <a href={RELEASES} {...ext} className="hbtn hbtn-primary">
+                      <Chevron dark /> Download binaries
+                    </a>
+                    <a href={`${DOCS}/mining/guide`} {...ext} className="hbtn hbtn-plain">
+                      Mining guide
+                    </a>
+                  </div>
+                  <span className="hplatforms">
+                    Available for Windows and Linux · build from source on macOS
+                  </span>
+                </div>
+              </div>
+              <ol className="hsteps reveal d1">
+                <li>
+                  <span className="hstep-idx">01</span>
+                  <div>
+                    <h3 className="hh4">Download the release</h3>
+                    <p>
+                      Grab the <a href={RELEASES} {...ext}>latest testnet release</a> for your
+                      platform.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <span className="hstep-idx">02</span>
+                  <div>
+                    <h3 className="hh4">Configure your node</h3>
+                    <p>
+                      Follow the <a href={`${DOCS}/mining/guide`} {...ext}>mining guide</a> —
+                      extraction, daemon config, and pool connection in one place.
+                    </p>
+                  </div>
+                </li>
+                <li>
+                  <span className="hstep-idx">03</span>
+                  <div>
+                    <h3 className="hh4">Create a wallet &amp; mine</h3>
+                    <p>
+                      Generate a Dilithium key, connect to the pool, and start mining quantum-safe
+                      blocks.
+                    </p>
+                  </div>
+                </li>
+              </ol>
+            </div>
+            <DotField rows={3} />
+          </section>
+        </div>
+
+        {/* ===================== GET INVOLVED ===================== */}
+        <section className="hsec hdark hpaths" id="paths">
+          <div className="hpaths-bg" aria-hidden="true">
+            <Image src="/home/network-bg.png" alt="" fill sizes="100vw" />
+          </div>
+          <Rule />
+          <Titles eyebrow="Get involved">Three ways to join the network.</Titles>
+          <div className="hpaths-grid">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/home/paths-grid.svg" alt="" aria-hidden="true" className="hpaths-lines" />
+            <article className="hpath reveal">
+              <div className="hpath-head">
+                <span className="heyebrow">01 · Miners</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/home/path-miners.svg" alt="" aria-hidden="true" width={45} height={45} />
+              </div>
+              <div>
+                <h3 className="hh3">Run a node, mine quantum-safe blocks.</h3>
+                <p className="hbody">
+                  Help secure the network and earn testnet BTQ. Same SHA-256 proof-of-work Bitcoin
+                  miners already know — with post-quantum signatures riding on top.
+                </p>
+                <a href={`${DOCS}/mining/guide`} {...ext} className="hbtn">
+                  <Chevron /> Quick start
+                </a>
+              </div>
+            </article>
+            <article className="hpath reveal d1">
+              <div className="hpath-head">
+                <span className="heyebrow">02 · Developers</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/home/path-developers.svg" alt="" aria-hidden="true" width={45} height={37} />
+              </div>
+              <div>
+                <h3 className="hh3">Build wallets, tools, integrations.</h3>
+                <p className="hbody">
+                  Bitcoin Core&apos;s UTXO model and scripting system, extended with a clean RPC API
+                  for post-quantum signing. Familiar surface, new primitives.
+                </p>
+                <a href="https://github.com/btq-ag/btq-core" {...ext} className="hbtn">
+                  <Chevron /> View on GitHub
+                </a>
+              </div>
+            </article>
+            <article className="hpath reveal d2">
+              <div className="hpath-head">
+                <span className="heyebrow">03 · Researchers</span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/home/path-researchers.svg" alt="" aria-hidden="true" width={45} height={45} />
+              </div>
+              <div>
+                <h3 className="hh3">Review the post-quantum security model.</h3>
+                <p className="hbody">
+                  Audit the ML-DSA integration and the protocol-level choices behind the larger
+                  post-quantum signatures. Comments and issues welcome.
+                </p>
+                <span className="hbtn hbtn-off" aria-disabled="true">Coming soon</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        {/* ===================== ROADMAP ===================== */}
+        <section className="hsec hdark hroad" id="roadmap">
+          <Rule />
+          <div className="hsplit">
+            <Titles eyebrow="The network">The path to a quantum-safe store of value.</Titles>
+            <div className="hphases">
+              {PHASES.map((p, i) => (
+                <div key={p.tag} className={`hphase ${p.state} reveal d${i}`}>
+                  <div className="hphase-meta">
+                    <span>{p.tag}</span>
+                    <span className="hphase-status">{p.status}</span>
+                  </div>
+                  <h3 className="hh3">{p.title}</h3>
+                  <p className="hbody">{p.body}</p>
+                </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ----- Under the hood ----- */}
-        <section className="hsec hunder" id="under">
-          <Rule light />
-          <div className="hsplit">
-            <Titles eyebrow="Under the hood">
-              Cryptography that outlasts the quantum threat.
-            </Titles>
-            <div className="hunder-body reveal d1">
-              <p className="hlead">
-                Every address is generated and spent with NIST-standardized post-quantum
-                primitives — verifiable today, secure against the computers of tomorrow.
-              </p>
-              <aside className="hnote" role="note">
-                <span className="hnote-label">Note · 20 August 2026</span>
-                <p>
-                  Early testnet builds issued Dilithium addresses in two legacy formats — a
-                  Base58 type and a witness-v0 bech32 experiment that has since been switched
-                  off. Both predate P2MR; their outputs are still on testnet, and they are
-                  history rather than the default.
-                </p>
-                <p>
-                  The standard Dilithium receive address today is BIP-360 P2MR —{' '}
-                  <code>tbtq1z…</code> on testnet.
-                </p>
-              </aside>
-              <ul className="hsquares">
-                <li>CRYSTALS-Dilithium (ML-DSA, NIST FIPS&nbsp;204) signatures replace ECDSA</li>
-                <li>BIP-360 P2MR receive addresses — the public key stays hidden until the output is spent</li>
-                <li>Cryptographic agility — ready to adopt new NIST PQC standards</li>
-              </ul>
-              <div className="hcode">
-                <div className="hcode-bar">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/home/code-dots.svg" alt="" aria-hidden="true" width={38} height={8} />
-                  <span>shell · btq-cli testnet</span>
-                </div>
-                <pre className="hcode-body">
-                  {CODE.map((line, i) =>
-                    line ? (
-                      <span key={i} dangerouslySetInnerHTML={{ __html: line + '\n' }} />
-                    ) : (
-                      <span key={i} className="gap">{'\n'}</span>
-                    )
-                  )}
-                </pre>
-              </div>
-            </div>
+        {/* ===================== CTA ===================== */}
+        <section className="hsec hdark hfinal" id="cta">
+          <div className="hfinal-grid" aria-hidden="true">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/home/cta-grid.svg" alt="" />
           </div>
-        </section>
-
-        {/* ----- Testnet ----- */}
-        <section className="hsec hdark htestnet" id="testnet">
           <Rule />
-          <span className="heyebrow hlive reveal">Testnet live</span>
-          <div className="hsplit">
-            <div className="htestnet-pitch">
-              <h2 className="hh2 reveal">Run a quantum-safe node.</h2>
+          <div className="hfinal-inner">
+            <div className="hfinal-copy">
+              <div className="htitles reveal">
+                <span className="heyebrow">Get started</span>
+                <h2 className="hh1">Be ready before quantum is.</h2>
+              </div>
               <div className="reveal d1">
                 <p className="hbody">
-                  Spin up a testnet node in under fifteen minutes. Mine quantum-safe blocks,
-                  validate transactions, and help stress-test the network before mainnet.
+                  Spin up a quantum-safe wallet on testnet or talk to us about institutional
+                  custody. The transition starts today.
                 </p>
                 <div className="hcta">
-                  <a href={RELEASES} {...ext} className="hbtn hbtn-primary">
-                    <Chevron dark /> Download binaries
+                  <a href={`${DOCS}/wallet/basics`} {...ext} className="hbtn hbtn-primary">
+                    <Chevron dark /> Create a wallet
                   </a>
-                  <a href={`${DOCS}/mining/guide`} {...ext} className="hbtn hbtn-plain">
-                    Mining guide
-                  </a>
+                  <span className="hbtn hbtn-plain" aria-disabled="true">Whitepaper · coming soon</span>
                 </div>
               </div>
             </div>
-            <ol className="hsteps reveal d1">
-              <li>
-                <span className="hstep-idx">01</span>
-                <div>
-                  <h3 className="hh4">Download the release</h3>
-                  <p>
-                    Grab the <a href={RELEASES} {...ext}>latest testnet release</a> for your
-                    platform.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span className="hstep-idx">02</span>
-                <div>
-                  <h3 className="hh4">Configure your node</h3>
-                  <p>
-                    Follow the <a href={`${DOCS}/mining/guide`} {...ext}>mining guide</a> —
-                    extraction, daemon config, and pool connection in one place.
-                  </p>
-                </div>
-              </li>
-              <li>
-                <span className="hstep-idx">03</span>
-                <div>
-                  <h3 className="hh4">Create a wallet &amp; mine</h3>
-                  <p>
-                    Generate a Dilithium key, connect to the pool, and start mining quantum-safe
-                    blocks.
-                  </p>
-                </div>
-              </li>
-            </ol>
+            <Image
+              src="/home/cta-illustration.png"
+              alt=""
+              width={576}
+              height={543}
+              sizes="(max-width: 900px) 80vw, 576px"
+              className="hfinal-art reveal d1"
+            />
           </div>
-          <DotField rows={3} />
         </section>
-      </div>
-
-      {/* ===================== GET INVOLVED ===================== */}
-      <section className="hsec hdark hpaths" id="paths">
-        <div className="hpaths-bg" aria-hidden="true">
-          <Image src="/home/network-bg.png" alt="" fill sizes="100vw" />
-        </div>
-        <Rule />
-        <Titles eyebrow="Get involved">Three ways to join the network.</Titles>
-        <div className="hpaths-grid">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/home/paths-grid.svg" alt="" aria-hidden="true" className="hpaths-lines" />
-          <article className="hpath reveal">
-            <div className="hpath-head">
-              <span className="heyebrow">01 · Miners</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/home/path-miners.svg" alt="" aria-hidden="true" width={45} height={45} />
-            </div>
-            <div>
-              <h3 className="hh3">Run a node, mine quantum-safe blocks.</h3>
-              <p className="hbody">
-                Help secure the network and earn testnet BTQ. Same SHA-256 proof-of-work Bitcoin
-                miners already know — with post-quantum signatures riding on top.
-              </p>
-              <a href={`${DOCS}/mining/guide`} {...ext} className="hbtn">
-                <Chevron /> Quick start
-              </a>
-            </div>
-          </article>
-          <article className="hpath reveal d1">
-            <div className="hpath-head">
-              <span className="heyebrow">02 · Developers</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/home/path-developers.svg" alt="" aria-hidden="true" width={45} height={37} />
-            </div>
-            <div>
-              <h3 className="hh3">Build wallets, tools, integrations.</h3>
-              <p className="hbody">
-                Bitcoin Core&apos;s UTXO model and scripting system, extended with a clean RPC API
-                for post-quantum signing. Familiar surface, new primitives.
-              </p>
-              <a href="https://github.com/btq-ag/btq-core" {...ext} className="hbtn">
-                <Chevron /> View on GitHub
-              </a>
-            </div>
-          </article>
-          <article className="hpath reveal d2">
-            <div className="hpath-head">
-              <span className="heyebrow">03 · Researchers</span>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/home/path-researchers.svg" alt="" aria-hidden="true" width={45} height={45} />
-            </div>
-            <div>
-              <h3 className="hh3">Review the post-quantum security model.</h3>
-              <p className="hbody">
-                Audit the ML-DSA integration and the protocol-level choices behind the larger
-                post-quantum signatures. Comments and issues welcome.
-              </p>
-              <span className="hbtn hbtn-off" aria-disabled="true">Coming soon</span>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      {/* ===================== ROADMAP ===================== */}
-      <section className="hsec hdark hroad" id="roadmap">
-        <Rule />
-        <div className="hsplit">
-          <Titles eyebrow="The network">The path to a quantum-safe store of value.</Titles>
-          <div className="hphases">
-            {PHASES.map((p, i) => (
-              <div key={p.tag} className={`hphase ${p.state} reveal d${i}`}>
-                <div className="hphase-meta">
-                  <span>{p.tag}</span>
-                  <span className="hphase-status">{p.status}</span>
-                </div>
-                <h3 className="hh3">{p.title}</h3>
-                <p className="hbody">{p.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===================== CTA ===================== */}
-      <section className="hsec hdark hfinal" id="cta">
-        <div className="hfinal-grid" aria-hidden="true">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/home/cta-grid.svg" alt="" />
-        </div>
-        <Rule />
-        <div className="hfinal-inner">
-          <div className="hfinal-copy">
-            <div className="htitles reveal">
-              <span className="heyebrow">Get started</span>
-              <h2 className="hh1">Be ready before quantum is.</h2>
-            </div>
-            <div className="reveal d1">
-              <p className="hbody">
-                Spin up a quantum-safe wallet on testnet or talk to us about institutional
-                custody. The transition starts today.
-              </p>
-              <div className="hcta">
-                <a href={`${DOCS}/wallet/basics`} {...ext} className="hbtn hbtn-primary">
-                  <Chevron dark /> Create a wallet
-                </a>
-                <span className="hbtn hbtn-plain" aria-disabled="true">Whitepaper · coming soon</span>
-              </div>
-            </div>
-          </div>
-          <Image
-            src="/home/cta-illustration.png"
-            alt=""
-            width={576}
-            height={543}
-            sizes="(max-width: 900px) 80vw, 576px"
-            className="hfinal-art reveal d1"
-          />
-        </div>
-      </section>
+      </main>
 
       {/* ===================== FOOTER ===================== */}
       <footer className="hfooter">
@@ -491,7 +489,10 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-        <p className="hfooter-legal">© 2026 Bitcoin Quantum. Open-source under MIT.</p>
+        <div className="hfooter-legal">
+          <span>© 2026 Bitcoin Quantum. Open-source under MIT.</span>
+          <span>bitcoinquantum.com</span>
+        </div>
       </footer>
     </div>
   );

@@ -1,26 +1,32 @@
+import {
+  CRYPTO_CODE,
+  CRYPTO_CODE_TITLE,
+  CRYPTO_EYEBROW,
+  CRYPTO_LEAD,
+  CRYPTO_NOTE_LABEL,
+  CRYPTO_POINTS,
+  CRYPTO_TITLE,
+  CryptoNoteBody,
+  type CodeToken,
+} from '@/content/cryptography';
+
 /**
- * The "Under the hood / Cryptography" dark band — shown on the home
- * page and on /protocol. Both surfaces want exactly the same content,
- * so it lives in one place. Pass an `id` so each host page can keep
- * its own anchor (e.g. "under" on home, "cryptography" on /protocol).
+ * The "Under the hood / Cryptography" dark band on /protocol. The copy
+ * lives in src/content/cryptography.tsx, shared with the home page.
+ * Pass an `id` so the host page can keep its own anchor.
  */
-const code = [
-  '<span class="cm"># Generate a quantum-safe Dilithium address</span>',
-  '<span class="cm"># and sign a testnet transaction.</span>',
-  '',
-  '<span class="cm">$</span> <span class="hl">btq-cli</span> <span class="kw">-testnet</span> <span class="fn">createwallet</span> <span class="st">&quot;main&quot;</span>',
-  '{ <span class="st">&quot;name&quot;</span>: <span class="st">&quot;main&quot;</span> }',
-  '',
-  '<span class="cm">$</span> <span class="hl">btq-cli</span> <span class="kw">-testnet</span> <span class="kw">-rpcwallet=main</span> \\',
-  '    <span class="fn">getnewdilithiumaddress</span>',
-  '<span class="nm">tbtq1z9u4k…</span>         <span class="cm"># Dilithium P2MR</span>',
-  '',
-  '<span class="cm">$</span> <span class="hl">btq-cli</span> <span class="kw">-testnet</span> <span class="kw">-rpcwallet=main</span> \\',
-  '    <span class="fn">sendtoaddress</span> <span class="st">&quot;tbtq1z9u4k…&quot;</span> <span class="nm">0.50</span>',
-  '<span class="nm">8a7f…e2c1</span>',
-  '',
-  '<span class="cm"># Every spend signed with ML-DSA — quantum-safe.</span>',
-];
+
+// v2.css colour classes for each token kind.
+const TOKEN_CLASS: Record<CodeToken, string | undefined> = {
+  text: undefined,
+  comment: 'cm',
+  prompt: 'cm',
+  command: 'hl',
+  flag: 'kw',
+  method: 'fn',
+  string: 'st',
+  value: 'nm',
+};
 
 function CheckIcon() {
   return (
@@ -36,43 +42,33 @@ export default function CryptographySection({ id = 'under' }: { id?: string }) {
       <div className="wrap">
         <div className="under-grid">
           <div className="reveal">
-            <span className="eyebrow">Under the hood</span>
-            <h2 className="h2">Cryptography that outlasts the quantum threat.</h2>
-            <p className="lead">
-              Every address is generated and spent with NIST-standardized post-quantum
-              primitives — verifiable today, secure against the computers of tomorrow.
-            </p>
+            <span className="eyebrow">{CRYPTO_EYEBROW}</span>
+            <h2 className="h2">{CRYPTO_TITLE}</h2>
+            <p className="lead">{CRYPTO_LEAD}</p>
             <aside className="note" role="note">
-              <span className="note-label">Note · 20 August 2026</span>
-              <p>
-                Early testnet builds issued Dilithium addresses in two legacy formats — a
-                Base58 type and a witness-v0 bech32 experiment that has since been switched
-                off. Both predate P2MR; their outputs are still on testnet, and they are
-                history rather than the default.
-              </p>
-              <p>
-                The standard Dilithium receive address today is BIP-360 P2MR —{' '}
-                <code>tbtq1z…</code> on testnet.
-              </p>
+              <span className="note-label">{CRYPTO_NOTE_LABEL}</span>
+              <CryptoNoteBody />
             </aside>
             <ul>
-              <li><CheckIcon /> CRYSTALS-Dilithium (ML-DSA, NIST FIPS&nbsp;204) signatures replace ECDSA</li>
-              <li><CheckIcon /> BIP-360 P2MR receive addresses — the public key stays hidden until the output is spent</li>
-              <li><CheckIcon /> Cryptographic agility — ready to adopt new NIST PQC standards</li>
+              {CRYPTO_POINTS.map((point) => (
+                <li key={point}><CheckIcon /> {point}</li>
+              ))}
             </ul>
           </div>
           <div className="code reveal d1">
             <div className="code-bar">
               <span className="dot" /><span className="dot" /><span className="dot" />
-              <span className="fname">shell · btq-cli testnet</span>
+              <span className="fname">{CRYPTO_CODE_TITLE}</span>
             </div>
             <div className="code-body">
-              {code.map((line, i) => (
-                <span
-                  key={i}
-                  className="ln"
-                  dangerouslySetInnerHTML={{ __html: line || '&nbsp;' }}
-                />
+              {CRYPTO_CODE.map((line, i) => (
+                <span key={i} className="ln">
+                  {line.length
+                    ? line.map(([kind, text], j) => (
+                        <span key={j} className={TOKEN_CLASS[kind]}>{text}</span>
+                      ))
+                    : ' '}
+                </span>
               ))}
             </div>
           </div>

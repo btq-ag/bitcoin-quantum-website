@@ -10,7 +10,7 @@
   --ink: #000;
   --paper: #fff;
   --muted: rgba(255, 255, 255, 0.5);
-  --faint: rgba(255, 255, 255, 0.4);
+  --faint: rgba(255, 255, 255, 0.48);
   --glass: rgba(255, 255, 255, 0.15);
   --gutter: 40px;
   --sans: var(--home-sans), 'Hanken Grotesk', system-ui, sans-serif;
@@ -22,6 +22,7 @@
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
+  position: relative;
 }
 .bqhome *, .bqhome *::before, .bqhome *::after { box-sizing: border-box; }
 .bqhome h1, .bqhome h2, .bqhome h3, .bqhome h4, .bqhome p,
@@ -182,7 +183,7 @@
   mask-image: linear-gradient(#000 70%, transparent);
 }
 .bqhome .hsky-bg img { object-fit: cover; object-position: 50% 0; }
-.bqhome .hsky main { position: relative; }
+.bqhome .hsky > :not(.hsky-bg) { position: relative; }
 
 .bqhome .hhero {
   min-height: 800px;
@@ -295,7 +296,7 @@
   font-size: clamp(17px, 1.39vw, 20px);
   line-height: 1.3;
   letter-spacing: -0.01em;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 /* ----- Under the hood ----- */
@@ -313,18 +314,18 @@
   font-size: 16px;
   line-height: 1.46;
   letter-spacing: -0.01em;
-  color: #4c667a;
+  color: #3b5265;
 }
 .bqhome .hnote-label {
   display: block;
   font-family: var(--mono);
   text-transform: uppercase;
-  color: #008bf5;
+  color: #00539a;
 }
 .bqhome .hnote code {
   padding: 1px 3px;
   font-family: inherit;
-  color: #008bf5;
+  color: #00539a;
   background: rgba(53, 164, 234, 0.2);
   border: 0.5px solid #008bf5;
   border-radius: 2px;
@@ -372,14 +373,14 @@
   line-height: 33px;
   white-space: pre;
 }
-.bqhome .hcode-body span { display: block; }
+.bqhome .hcode-body > span { display: block; }
 .bqhome .hcode-body .gap { line-height: 20px; }
-.bqhome .hcode-body .c { display: inline; color: rgba(0, 0, 0, 0.5); }
-.bqhome .hcode-body .b { display: inline; color: #3752f7; }
-.bqhome .hcode-body .f { display: inline; color: #a71bab; }
-.bqhome .hcode-body .k { display: inline; color: #006bbd; }
-.bqhome .hcode-body .s { display: inline; color: #008b55; }
-.bqhome .hcode-body .n { display: inline; color: #cf5300; }
+.bqhome .hcode-body .c { color: rgba(0, 0, 0, 0.78); }
+.bqhome .hcode-body .b { color: #3752f7; }
+.bqhome .hcode-body .f { color: #a71bab; }
+.bqhome .hcode-body .k { color: #006bbd; }
+.bqhome .hcode-body .s { color: #008b55; }
+.bqhome .hcode-body .n { color: #cf5300; }
 
 /* ----- Testnet ----- */
 .bqhome .htestnet {
@@ -396,6 +397,14 @@
 }
 .bqhome .hlive::before { content: '• '; }
 .bqhome .htestnet .hsplit { column-gap: 84px; grid-template-columns: 605fr 630fr; }
+.bqhome .hplatforms {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.7);
+}
 .bqhome .htestnet-pitch {
   display: flex;
   flex-direction: column;
@@ -440,8 +449,9 @@
 .bqhome .hpaths > :not(.hpaths-bg) { position: relative; }
 .bqhome .hpaths-grid {
   display: grid;
-  grid-template-columns: repeat(3, 420px);
+  grid-template-columns: repeat(3, minmax(0, 420px));
   justify-content: space-between;
+  column-gap: 40px;
   max-width: 1350px;
   margin: 76px auto 0;
   padding: 0 var(--gutter);
@@ -547,7 +557,16 @@
 }
 .bqhome .hfooter ul { display: flex; flex-direction: column; gap: 16px; font-size: 14px; line-height: 1; }
 .bqhome .hfooter ul a:hover { color: var(--blue); }
-.bqhome .hfooter-legal { margin-top: 160px; font-size: 14px; line-height: 1; color: var(--faint); }
+.bqhome .hfooter-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 160px;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--faint);
+}
 
 /* ============================================================
    Scroll reveal (wired by RevealMount)
@@ -654,4 +673,9 @@
 
   .bqhome .hfooter-cols { grid-template-columns: 1fr 1fr; row-gap: 40px; }
   .bqhome .hfooter-legal { margin-top: 72px; }
+}
+
+/* The hero repeats "Get started" right below, so the nav copy can go. */
+@media (max-width: 400px) {
+  .bqhome .hnav-right .hbtn { display: none; }
 }
