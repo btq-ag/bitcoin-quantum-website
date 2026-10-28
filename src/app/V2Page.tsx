@@ -336,6 +336,33 @@ export default function V2Page() {
                   </a>
                 </div>
                 <span className="foot reveal">Available for Windows and Linux · build from source on macOS</span>
+                {/* Static text (no count-up) so crawlers and AI retrieval bots
+                    that never run JS read the real numbers. Snapshot is dated;
+                    see the Q1 2026 corporate update for the source figures. */}
+                <div className="testnet-stats reveal d3">
+                  <div>
+                    <div className="fact-num">75+</div>
+                    <div className="fact-label">Miners on testnet</div>
+                  </div>
+                  <div>
+                    <div className="fact-num">300,000+</div>
+                    <div className="fact-label">Testnet blocks mined</div>
+                  </div>
+                  <div>
+                    <div className="fact-num">150+</div>
+                    <div className="fact-label">Open-source contributors</div>
+                  </div>
+                </div>
+                <span className="foot reveal">
+                  Testnet snapshot · March 2026 · source:{' '}
+                  <a
+                    href="https://www.sec.gov/Archives/edgar/data/1821866/000106299326002785/exhibit99-1.htm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Q1 2026 corporate update
+                  </a>
+                </span>
               </div>
 
               <ol className="testnet-steps reveal d1">

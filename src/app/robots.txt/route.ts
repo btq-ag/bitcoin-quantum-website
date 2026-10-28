@@ -15,6 +15,24 @@ function body(): string {
 Allow: /
 Disallow: /api/
 
+# AI search / retrieval bots — already covered by the wildcard above,
+# listed explicitly so an auditor (human or agent) can verify at a glance
+# that nothing here blocks Perplexity, OpenAI, or Anthropic crawlers.
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: ChatGPT-User
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: anthropic-ai
+Allow: /
+
 Host: ${SITE_URL}
 Sitemap: ${SITE_URL}/sitemap.xml
 
